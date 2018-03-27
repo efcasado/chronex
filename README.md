@@ -1,4 +1,5 @@
 # Stopwatch
+[![Build Status](https://travis-ci.org/efcasado/stopwatch.svg?branch=master)](https://travis-ci.org/efcasado/stopwatch)
 
 ![Stopwatch](stopwatch.png)
 
