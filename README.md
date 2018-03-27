@@ -6,6 +6,9 @@
 
 A small library to seamlessly add instrumentation to your Elixir code.
 
+The documentation for this project is available at
+[HexDocs](https://hexdocs.pm/chronex/api-reference.html).
+
 
 ## Quick Start
 
