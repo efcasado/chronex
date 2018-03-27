@@ -4,7 +4,7 @@ defmodule Stopwatch.Mixfile do
   def project do
     [
       app: :stopwatch,
-      version: "0.1.0",
+      version: version(),
       elixir: "~> 1.5",
       start_permanent: Mix.env == :prod,
       preferred_cli_env: [espec: :test],
@@ -17,6 +17,18 @@ defmodule Stopwatch.Mixfile do
       ],
       deps: deps()
     ]
+  end
+
+  def version do
+    case System.cmd("git", ["rev-list", "--tags", "--max-count=1"]) do
+      {last, 0} ->
+        last = String.trim(last)
+        case System.cmd("git", ["describe", "--exact-match", "--tags", last]) do
+          {"v" <> vsn, 0} -> String.trim(vsn)
+          {_,   _} -> "0.1.0"
+        end
+      {_,   _} -> "0.1.0"
+    end
   end
 
   def application do
