@@ -13,7 +13,9 @@ env:
 
 script: mix coveralls.travis
 
-publish:
+deploy:
+  elixir: 1.6
+  otp_release: 20.1
   script: mix coveralls
   after_script:
     - mix hex.config username $HEX_USERNAME
