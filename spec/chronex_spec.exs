@@ -37,7 +37,9 @@ defmodule ChronexSpec do
 
   ##== Configuration ======================================================
   before do
-    :shell_default.l(String)
+    Code.append_path("spec/lib")
+    Chronex.unbind(String2, :length, 1)
+    Chronex.unbind(String2, :throw_test, 1)
 
     allow Logger
     |> to(accept :bare_log, fn(_level, _msg) -> :ok end,
@@ -45,39 +47,79 @@ defmodule ChronexSpec do
   end
 
   ##== Tests ==============================================================
-  it "no instrumentation when no stopwatch attached" do
-    str = "Hello, world!"
-    len = String.length(str)
+  describe """
+  when no stopwatch is attached to String2.length/1
+  """ do
+    it "no information is logged when String2.length/1 is called" do
+      str = "Hello, world!"
+      len = String2.length(str)
 
-    expect len |> to(eq 13)
-    expect Logger |> to(accepted :bare_log, :any, count: 0)
+      expect len |> to(eq 13)
+      expect Logger |> to(accepted :bare_log, :any, count: 0)
+    end
   end
 
-  it "instrumentation when stopwatch attached" do
-    Chronex.bind(String, :length, 1)
+  describe """
+  when a stopwatch is attached to String2.length/1
+  """ do
+    it """
+    information is logged when String2.length/1 is called and it returns
+    normally
+    """ do
+      :ok = Chronex.bind(String2, :length, 1)
 
-    str = "Hello, world!"
-    len = String.length(str)
+      str = "Hello, world!"
+      len = String2.length(str)
 
-    expect len |> to(eq 13)
-    expect Logger |> to(accepted :bare_log, :any, count: 1)
+      expect len |> to(eq 13)
+      expect Logger |> to(accepted :bare_log, :any, count: 2)
+    end
+
+    it """
+    information is logged when String2.length/1 is called and it raises
+    an exception
+    """ do
+      :ok = Chronex.bind(String2, :length, 1)
+
+      str = :hello_world
+      expect(fn() -> String2.length(str) end) |> to(raise_exception())
+      expect Logger |> to(accepted :bare_log, :any, count: 2)
+    end
+
+    it """
+    information is logged when String2.length/1 is called and it throws
+    a value
+    """ do
+      :ok = Chronex.bind(String2, :throw_test, 1)
+
+      str = "Hello, world!"
+      expect(fn() -> String2.throw_test(str) end) |> to(throw_term str)
+      expect Logger |> to(accepted :bare_log, :any, count: 2)
+    end
+
   end
 
-  it "detach stopwatch by means of code reload" do
-    Chronex.bind(String, :length, 1)
+  describe """
+  when a stopwatch is first attached and then detached from String2.length/1
+  """ do
+    it """
+    no information is logged when String2.length/1 is called after the stopwatch
+    is detached
+    """ do
+      :ok = Chronex.bind(String2, :length, 1)
 
-    str = "Hello, world!"
-    len = String.length(str)
+      str = "Hello, world!"
+      len = String2.length(str)
 
-    expect len |> to(eq 13)
-    expect Logger |> to(accepted :bare_log, :any, count: 1)
+      expect len |> to(eq 13)
+      expect Logger |> to(accepted :bare_log, :any, count: 2)
 
-    :shell_default.l(String)
+      :ok = Chronex.unbind(String2, :length, 1)
 
-    len = String.length(str)
+      len = String2.length(str)
 
-    expect len |> to(eq 13)
-    expect Logger |> to(accepted :bare_log, :any, count: 1)
+      expect len |> to(eq 13)
+      expect Logger |> to(accepted :bare_log, :any, count: 2)
+    end
   end
-
 end
