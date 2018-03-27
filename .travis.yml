@@ -7,3 +7,4 @@ otp_release:
   - 18.3
   - 19.3
   - 20.1
+script: mix espec
