@@ -12,3 +12,12 @@ env:
   - MIX_ENV=test
 
 script: mix coveralls.travis
+
+publish:
+  script: mix coveralls
+  after_script:
+    - mix hex.config username $HEX_USERNAME
+    - mix hex.config key $HEX_KEY
+    - mix hex.publish
+  on:
+    tags: true
