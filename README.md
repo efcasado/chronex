@@ -1,5 +1,6 @@
 # Stopwatch
 [![Build Status](https://travis-ci.org/efcasado/stopwatch.svg?branch=master)](https://travis-ci.org/efcasado/stopwatch)
+[![Coverage Status](https://coveralls.io/repos/github/efcasado/stopwatch/badge.svg?branch=master)](https://coveralls.io/github/efcasado/stopwatch?branch=master)
 
 ![Stopwatch](stopwatch.png)
 
