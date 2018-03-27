@@ -1,6 +1,10 @@
 # Chronex
 [![Build Status](https://travis-ci.org/efcasado/chronex.svg?branch=master)](https://travis-ci.org/efcasado/chronex)
 [![Coverage Status](https://coveralls.io/repos/github/efcasado/chronex/badge.svg?branch=master)](https://coveralls.io/github/efcasado/chronex?branch=master)
+[![Version](https://img.shields.io/hexpm/v/chronex.svg)](https://hex.pm/packages/chronex)
+[![Downloads](https://img.shields.io/hexpm/dt/chronex.svg)](https://hex.pm/packages/chronex)
+[![License](https://img.shields.io/hexpm/l/chronex.svg)](https://choosealicense.com/licenses/mit/)
+
 
 ![Chronex](stopwatch.png)
 
