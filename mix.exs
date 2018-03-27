@@ -5,6 +5,7 @@ defmodule Stopwatch.Mixfile do
     [
       app: :stopwatch,
       version: version(),
+      description: "Library to seamlessly add instrumentation to your code.",
       elixir: "~> 1.5",
       start_permanent: Mix.env == :prod,
       preferred_cli_env: [espec: :test],
@@ -15,7 +16,8 @@ defmodule Stopwatch.Mixfile do
         "coveralls.post": :test,
         "coveralls.html": :test
       ],
-      deps: deps()
+      deps: deps(),
+      package: package()
     ]
   end
 
@@ -39,7 +41,7 @@ defmodule Stopwatch.Mixfile do
 
   defp deps do
     [
-      {:meta, git: "https://github.com/efcasado/meta.git", branch: "forms-0.1.0"},
+      {:meta,        "~> 0.1.2"},
       # Dev
       {:earmark,     "~> 1.2",    only: :dev},
       {:ex_doc,      "~> 0.18.3", only: :dev},
@@ -47,5 +49,13 @@ defmodule Stopwatch.Mixfile do
       {:espec,       "~> 1.5.0",  only: :test},
       {:excoveralls, "~> 0.8.1",  only: :test}
     ]
+  end
+
+  defp package do
+    %{
+      maintainers: ["Enrique Fernandez"],
+      licenses: ["MIT"],
+      links: %{"Github" => "https://github.com/efcasado/stopwatch"}
+    }
   end
 end
