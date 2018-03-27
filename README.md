@@ -28,7 +28,7 @@ String.length(str)
 :ok  = Stopwatch.bind(String, :length, 1)
 
 String.length(str)
-# STDOUT: stopwatch | 'Elixir.String':length/1 returned in 0.004 ms
+# STDOUT: 15:53:09.917 [debug] stopwatch | 'Elixir.String':length/1 returned in 0.006 ms
 # => 13
 
 # Detach the stopwatch from String.length/1 by means of a code reload
@@ -36,6 +36,17 @@ l(String)
 
 String.length(str)
 # => 13
+```
+
+
+## Configuration
+
+`Stopwatch` will use a `:debug` log level by default. You can change the log
+level used by `Stopwatch` by simply setting `Stopwatch`'s `log_level` to the
+desired value.
+
+```elixir
+config :stopwatch, log_level: :info
 ```
 
 

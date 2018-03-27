@@ -34,6 +34,12 @@
 defmodule Stopwatch do
   ##== Preamble ===========================================================
   @moduledoc """
+  # Stopwatch
+  A small library to seamlessly add instrumentation to your Elixir code.
+
+
+  ## Quick Start
+
   `Stopwatch` implements a dead simple API consisting of only one function,
   `bind/3`.
 
@@ -53,7 +59,7 @@ defmodule Stopwatch do
   :ok  = Stopwatch.bind(String, :length, 1)
 
   String.length(str)
-  # STDOUT: stopwatch | 'Elixir.String':length/1 returned in 0.004 ms
+  # STDOUT: 15:53:09.917 [debug] stopwatch | 'Elixir.String':length/1 returned in 0.006 ms
   # => 13
 
   # Detach the stopwatch from String.length/1 by means of a code reload
@@ -61,6 +67,17 @@ defmodule Stopwatch do
 
   String.length(str)
   # => 13
+  ```
+
+
+  ## Configuration
+
+  `Stopwatch` will use a `:debug` log level by default. You can change the log
+  level used by `Stopwatch` by simply setting `Stopwatch`'s `log_level` to the
+  desired value.
+
+  ```elixir
+  config :stopwatch, log_level: :info
   ```
   """
 
@@ -71,37 +88,49 @@ defmodule Stopwatch do
   @doc """
   Attach a stopwatch to the given function. The stopwatch is started on
   every function call targetting the given function. It measures how long
-  it takes for the given function to run. All measurements are written to
-  standard output.
+  it takes for the given function to run. All measurements are handled
+  by the Logger application.
   """
-  @spec bind(atom(), atom(), non_neg_integer()) :: :ok | {:error, any()}
+  @spec bind(atom(), atom(), non_neg_integer()) :: :ok
   def bind(m, f0, a) do
-    f1   = fname(f0)
-    args = args(a)
-    msg  = list_to_cons('stopwatch | ~p:~p/~p returned in ~p ms\n')
+    f1    = fname(f0)
+    args  = args(a)
+    msg   = list_to_cons('stopwatch | ~p:~p/~p returned in ~p ms\n')
 
-    fun  = {:function, 0, f0, a,
-            [{:clause, 0, args, [],
-              [{:match, 0,
-                {:tuple, 0, [{:var, 0, :t0}, {:var, 0, :v}]},
-                {:call, 0,
-                 {:remote, 0, {:atom, 0, :timer}, {:atom, 0, :tc}},
-                 [{:fun, 0, {:clauses,
-                             [{:clause, 0, [], [],
-                               [{:call, 0, {:atom, 0, f1}, args}]}]}}]}},
-               {:match, 0,
-                {:var, 0, :t1},
-                {:op, 0, :/, {:var, 0, :t0}, {:integer, 0, 1000}}},
+    fun = {:function, 0, f0, a,
+           [{:clause, 0, args, [],
+             [{:match, 0,
+               {:tuple, 0, [{:var, 0, :t0}, {:var, 0, :v}]},
                {:call, 0,
-                {:remote, 0, {:atom, 0, :io}, {:atom, 0, :format}},
+                {:remote, 0, {:atom, 0, :timer}, {:atom, 0, :tc}},
+                [{:fun, 0, {:clauses,
+                            [{:clause, 0, [], [],
+                              [{:call, 0, {:atom, 0, f1}, args}]}]}}]}},
+              {:match, 0,
+               {:var, 0, :t1},
+               {:op, 0, :/, {:var, 0, :t0}, {:integer, 0, 1000}}},
+              {:match, 0,
+               {:var, 0, :level},
+               {:call, 0,
+                {:remote, 0, {:atom, 0, Application}, {:atom, 0, :get_env}},
+                [{:atom, 0, :stopwatch},
+                 {:atom, 0, :log_evel},
+                 {:atom, 0, :debug}]}},
+              {:match, 0,
+               {:var, 0, :msg},
+               {:call, 0,
+                {:remote, 0, {:atom, 0, :io_lib}, {:atom, 0, :format}},
                 [msg,
                  {:cons, 0, {:atom, 0, m},
                   {:cons, 0, {:atom, 0, f0},
                    {:cons, 0, {:integer, 0, a},
                     {:cons, 0, {:var, 0, :t1},
-                     {nil, 0}}}}}]},
-               {:var, 0, :v}]}]}
-
+                     {nil, 0}}}}}]}},
+              {:call, 0,
+               {:remote, 0, {:atom, 0, Logger}, {:atom, 0, :bare_log}},
+               [{:var, 0, :level},
+                {:var, 0, :msg}]},
+              {:var, 0, :v}]}]}
 
     forms = :forms.read(m)
     forms = :meta.rename_function(f0, a, f1, false, forms)

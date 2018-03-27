@@ -39,8 +39,8 @@ defmodule StopwatchSpec do
   before do
     :shell_default.l(String)
 
-    allow :io
-    |> to(accept :format, fn(_msg, _args) -> :ok end,
+    allow Logger
+    |> to(accept :bare_log, fn(_level, _msg) -> :ok end,
     [:non_strict, :passthrough, :unstick])
   end
 
@@ -50,7 +50,7 @@ defmodule StopwatchSpec do
     len = String.length(str)
 
     expect len |> to(eq 13)
-    expect :io |> to(accepted :format, :any, count: 0)
+    expect Logger |> to(accepted :bare_log, :any, count: 0)
   end
 
   it "instrumentation when stopwatch attached" do
@@ -60,7 +60,7 @@ defmodule StopwatchSpec do
     len = String.length(str)
 
     expect len |> to(eq 13)
-    expect :io |> to(accepted :format, :any, count: 1)
+    expect Logger |> to(accepted :bare_log, :any, count: 1)
   end
 
   it "detach stopwatch by means of code reload" do
@@ -70,14 +70,14 @@ defmodule StopwatchSpec do
     len = String.length(str)
 
     expect len |> to(eq 13)
-    expect :io |> to(accepted :format, :any, count: 1)
+    expect Logger |> to(accepted :bare_log, :any, count: 1)
 
     :shell_default.l(String)
 
     len = String.length(str)
 
     expect len |> to(eq 13)
-    expect :io |> to(accepted :format, :any, count: 1)
+    expect Logger |> to(accepted :bare_log, :any, count: 1)
   end
 
 end
