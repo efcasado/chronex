@@ -1,5 +1,5 @@
 ###========================================================================
-### File: stopwatch.ex
+### File: chronex.ex
 ###
 ### A small library to seamlessly add instrumentation to your Elixir code.
 ###
@@ -31,16 +31,16 @@
 ### TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 ### SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ###========================================================================
-defmodule Stopwatch do
+defmodule Chronex do
   ##== Preamble ===========================================================
   @moduledoc """
-  # Stopwatch
+  # Chronex
   A small library to seamlessly add instrumentation to your Elixir code.
 
 
   ## Quick Start
 
-  `Stopwatch` implements a dead simple API consisting of only one function,
+  `Chronex` implements a dead simple API consisting of only one function,
   `bind/3`.
 
   `bind/3` is used to attach a stopwatch to the given function. Calling this
@@ -56,10 +56,10 @@ defmodule Stopwatch do
   # => 13
 
   # Attach a stopwatch to String.length/1
-  :ok  = Stopwatch.bind(String, :length, 1)
+  :ok  = Chronex.bind(String, :length, 1)
 
   String.length(str)
-  # STDOUT: 15:53:09.917 [debug] stopwatch | 'Elixir.String':length/1 returned in 0.006 ms
+  # STDOUT: 15:53:09.917 [debug] chronex | 'Elixir.String':length/1 returned in 0.006 ms
   # => 13
 
   # Detach the stopwatch from String.length/1 by means of a code reload
@@ -72,16 +72,16 @@ defmodule Stopwatch do
 
   ## Configuration
 
-  `Stopwatch` will use a `:debug` log level by default. You can change the log
-  level used by `Stopwatch` by simply setting `Stopwatch`'s `log_level` to the
+  `Chronex` will use a `:debug` log level by default. You can change the log
+  level used by `Chronex` by simply setting `Chronex`'s `log_level` to the
   desired value.
 
   ```elixir
-  config :stopwatch, log_level: :info
+  config :chronex, log_level: :info
   ```
   """
 
-  @prefix "#stopwatch"
+  @prefix "#chronex"
 
 
   ##== API ================================================================
@@ -95,7 +95,7 @@ defmodule Stopwatch do
   def bind(m, f0, a) do
     f1    = fname(f0)
     args  = args(a)
-    msg   = list_to_cons('stopwatch | ~p:~p/~p returned in ~p ms\n')
+    msg   = list_to_cons('chronex | ~p:~p/~p returned in ~p ms\n')
 
     fun = {:function, 0, f0, a,
            [{:clause, 0, args, [],
@@ -113,7 +113,7 @@ defmodule Stopwatch do
                {:var, 0, :level},
                {:call, 0,
                 {:remote, 0, {:atom, 0, Application}, {:atom, 0, :get_env}},
-                [{:atom, 0, :stopwatch},
+                [{:atom, 0, :chronex},
                  {:atom, 0, :log_evel},
                  {:atom, 0, :debug}]}},
               {:match, 0,

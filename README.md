@@ -1,15 +1,15 @@
-# Stopwatch
-[![Build Status](https://travis-ci.org/efcasado/stopwatch.svg?branch=master)](https://travis-ci.org/efcasado/stopwatch)
-[![Coverage Status](https://coveralls.io/repos/github/efcasado/stopwatch/badge.svg?branch=master)](https://coveralls.io/github/efcasado/stopwatch?branch=master)
+# Chronex
+[![Build Status](https://travis-ci.org/efcasado/chronex.svg?branch=master)](https://travis-ci.org/efcasado/chronex)
+[![Coverage Status](https://coveralls.io/repos/github/efcasado/chronex/badge.svg?branch=master)](https://coveralls.io/github/efcasado/chronex?branch=master)
 
-![Stopwatch](stopwatch.png)
+![Chronex](stopwatch.png)
 
 A small library to seamlessly add instrumentation to your Elixir code.
 
 
 ## Quick Start
 
-`Stopwatch` implements a dead simple API consisting of only one function,
+`Chronex` implements a dead simple API consisting of only one function,
 `bind/3`.
 
 `bind/3` is used to attach a stopwatch to the given function. Calling this
@@ -25,10 +25,10 @@ String.length(str)
 # => 13
 
 # Attach a stopwatch to String.length/1
-:ok  = Stopwatch.bind(String, :length, 1)
+:ok  = Chronex.bind(String, :length, 1)
 
 String.length(str)
-# STDOUT: 15:53:09.917 [debug] stopwatch | 'Elixir.String':length/1 returned in 0.006 ms
+# STDOUT: 15:53:09.917 [debug] chronex | 'Elixir.String':length/1 returned in 0.006 ms
 # => 13
 
 # Detach the stopwatch from String.length/1 by means of a code reload
@@ -41,12 +41,12 @@ String.length(str)
 
 ## Configuration
 
-`Stopwatch` will use a `:debug` log level by default. You can change the log
-level used by `Stopwatch` by simply setting `Stopwatch`'s `log_level` to the
+`Chronex` will use a `:debug` log level by default. You can change the log
+level used by `Chronex` by simply setting `Chronex`'s `log_level` to the
 desired value.
 
 ```elixir
-config :stopwatch, log_level: :info
+config :chronex, log_level: :info
 ```
 
 

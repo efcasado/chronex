@@ -1,9 +1,9 @@
-defmodule Stopwatch.Mixfile do
+defmodule Chronex.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :stopwatch,
+      app: :chronex,
       version: version(),
       description: "Library to seamlessly add instrumentation to your code.",
       elixir: "~> 1.5",
@@ -55,7 +55,7 @@ defmodule Stopwatch.Mixfile do
     %{
       maintainers: ["Enrique Fernandez"],
       licenses: ["MIT"],
-      links: %{"Github" => "https://github.com/efcasado/stopwatch"}
+      links: %{"Github" => "https://github.com/efcasado/chronex"}
     }
   end
 end

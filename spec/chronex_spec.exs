@@ -1,5 +1,5 @@
 ###========================================================================
-### File: stopwatch_spec.exs
+### File: chronex_spec.exs
 ###
 ### Unit tests.
 ###
@@ -31,7 +31,7 @@
 ### TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 ### SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ###========================================================================
-defmodule StopwatchSpec do
+defmodule ChronexSpec do
   ##== Preamble ===========================================================
   use ESpec
 
@@ -54,7 +54,7 @@ defmodule StopwatchSpec do
   end
 
   it "instrumentation when stopwatch attached" do
-    Stopwatch.bind(String, :length, 1)
+    Chronex.bind(String, :length, 1)
 
     str = "Hello, world!"
     len = String.length(str)
@@ -64,7 +64,7 @@ defmodule StopwatchSpec do
   end
 
   it "detach stopwatch by means of code reload" do
-    Stopwatch.bind(String, :length, 1)
+    Chronex.bind(String, :length, 1)
 
     str = "Hello, world!"
     len = String.length(str)
