@@ -310,6 +310,7 @@ defmodule Chronex do
     |> String.to_atom
   end
 
+  defp args(0), do: []
   defp args(arity) do
     1..arity
     |> Enum.map(
