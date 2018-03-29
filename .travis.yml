@@ -27,10 +27,10 @@ jobs:
   include:
     - stage: deploy
       provider: script
-      script: mix coveralls
-      after_script:
+      env: MIX_ENV=prod
+      script:
         - mix hex.config username $HEX_USERNAME
         - mix hex.config key $HEX_KEY
-        - mix hex.publish
+        - mix hex.publish --no-confirm
       on:
         tags: true
