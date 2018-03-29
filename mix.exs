@@ -27,7 +27,10 @@ defmodule Chronex.Mixfile do
 
   def application do
     [
-      extra_applications: [:logger]
+      extra_applications: [:logger],
+      env: [
+        backends: [Chronex.Backends.Logger]
+      ]
     ]
   end
 
