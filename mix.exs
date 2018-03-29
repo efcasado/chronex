@@ -4,7 +4,7 @@ defmodule Chronex.Mixfile do
   def project do
     [
       app: :chronex,
-      version: "1.0.2",
+      version: "1.0.3",
       description: "Library to seamlessly add instrumentation to your code.",
       elixir: "~> 1.5",
       start_permanent: Mix.env == :prod,
