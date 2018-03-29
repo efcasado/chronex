@@ -1,15 +1,20 @@
 language: elixir
 
 elixir:
-  - 1.5
-  - 1.6
+    - 1.6
+    - 1.5
 
 otp_release:
-  - 19.3
-  - 20.1
+    - 20.1
+    - 19.3
 
 env:
   - MIX_ENV=test
+
+stages:
+  - test
+  - name: deploy
+    if: tag =~ ^v1
 
 script:
   - mix deps.get
@@ -18,12 +23,14 @@ script:
   - elixirc -o spec/lib spec/lib
   - mix coveralls.travis
 
-deploy:
-  provider: script
-  script: mix coveralls
-  after_script:
-    - mix hex.config username $HEX_USERNAME
-    - mix hex.config key $HEX_KEY
-    - mix hex.publish
-  on:
-    tags: true
+jobs:
+  include:
+    - stage: deploy
+      provider: script
+      script: mix coveralls
+      after_script:
+        - mix hex.config username $HEX_USERNAME
+        - mix hex.config key $HEX_KEY
+        - mix hex.publish
+      on:
+        tags: true
