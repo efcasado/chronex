@@ -13,8 +13,6 @@ env:
 
 stages:
   - test
-  - name: deploy
-    if: tag =~ ^v1
 
 script:
   - mix deps.get
