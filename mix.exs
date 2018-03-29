@@ -4,7 +4,7 @@ defmodule Chronex.Mixfile do
   def project do
     [
       app: :chronex,
-      version: version(),
+      version: "1.0.2",
       description: "Library to seamlessly add instrumentation to your code.",
       elixir: "~> 1.5",
       start_permanent: Mix.env == :prod,
@@ -23,18 +23,6 @@ defmodule Chronex.Mixfile do
       deps: deps(),
       package: package()
     ]
-  end
-
-  def version do
-    case System.cmd("git", ["rev-list", "--tags", "--max-count=1"]) do
-      {last, 0} ->
-        last = String.trim(last)
-        case System.cmd("git", ["describe", "--exact-match", "--tags", last]) do
-          {"v" <> vsn, 0} -> String.trim(vsn)
-          {_,   _} -> "0.1.0"
-        end
-      {_,   _} -> "0.1.0"
-    end
   end
 
   def application do
