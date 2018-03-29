@@ -14,6 +14,17 @@ The documentation for this project is available at
 [HexDocs](https://hexdocs.pm/chronex/api-reference.html).
 
 
+## Installation
+`Chronex` is available on [Hex](https://hex.pm/packages/chronex). All you have
+to do is to add it to your `mix.exs` file as a test dependency.
+
+```elixir
+def deps do
+  [{:chronex, "~> 1.0"}]
+end
+```
+
+
 ## Quick Start
 
 `Chronex` implements a dead simple API consisting of only three functions,
