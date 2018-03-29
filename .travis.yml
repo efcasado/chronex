@@ -27,7 +27,7 @@ jobs:
   include:
     - stage: deploy
       provider: script
-      env: MIX_ENV=prod
+      env: MIX_ENV=dev
       script:
         - mix hex.config username $HEX_USERNAME
         - mix hex.config key $HEX_KEY
