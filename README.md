@@ -40,8 +40,8 @@ String2.length(str)
 true = Chronex.bound?(String2, :length, 1)
 
 String2.length(str)
-  # STDOUT: 15:53:09.917 [debug] chronex | hook=:before mfa="Elixir.String2.length/1" args=["Hello, world!"] uuid="39c120fa-3264-11e8-afec-600308a32e10"
-  # STDOUT: chronex | hook=:after_return mfa="Elixir.String2.length/1" return=13 duration=0.003 uuid="39c120fa-3264-11e8-afec-600308a32e10"
+# STDOUT: 15:53:09.917 [debug] chronex | hook=:before mfa="Elixir.String2.length/1" args=["Hello, world!"] uuid="39c120fa-3264-11e8-afec-600308a32e10"
+# STDOUT: chronex | hook=:after_return mfa="Elixir.String2.length/1" return=13 duration=0.003 uuid="39c120fa-3264-11e8-afec-600308a32e10"
 # => 13
 
 # Detach the stopwatch from String2.length/1
